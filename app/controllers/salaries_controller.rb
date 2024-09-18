@@ -12,6 +12,6 @@ class SalariesController < ApplicationController
   private
 
   def user_salary_params
-    params.permit(:amount , :date)
+    params.permit(:amount , :date , :user_id)
   end
 end

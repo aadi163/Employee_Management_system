@@ -29,7 +29,7 @@ class LeavesController < ApplicationController
   private
 
   def user_leave_params
-    params.permit(:from , :to , :days)
+    params.permit(:from , :to , :days , :user_id)
   end
 
   def find_leave

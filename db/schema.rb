@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_18_110141) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_18_141250) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,21 +19,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_110141) do
     t.string "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
   create_table "departments", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "employee_attendances", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "attendance_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["attendance_id"], name: "index_employee_attendances_on_attendance_id"
-    t.index ["user_id"], name: "index_employee_attendances_on_user_id"
   end
 
   create_table "employee_departments", force: :cascade do |t|
@@ -45,30 +38,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_110141) do
     t.index ["user_id"], name: "index_employee_departments_on_user_id"
   end
 
-  create_table "employee_leaves", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "leave_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["leave_id"], name: "index_employee_leaves_on_leave_id"
-    t.index ["user_id"], name: "index_employee_leaves_on_user_id"
-  end
-
-  create_table "employee_salaries", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "salary_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["salary_id"], name: "index_employee_salaries_on_salary_id"
-    t.index ["user_id"], name: "index_employee_salaries_on_user_id"
-  end
-
   create_table "leaves", force: :cascade do |t|
     t.string "from"
     t.string "to"
     t.string "days"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_leaves_on_user_id"
   end
 
   create_table "salaries", force: :cascade do |t|
@@ -76,6 +53,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_110141) do
     t.bigint "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_salaries_on_user_id"
   end
 
   create_table "user_addresses", force: :cascade do |t|
@@ -107,14 +86,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_110141) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "employee_attendances", "attendances"
-  add_foreign_key "employee_attendances", "users"
+  add_foreign_key "attendances", "users"
   add_foreign_key "employee_departments", "departments"
   add_foreign_key "employee_departments", "users"
-  add_foreign_key "employee_leaves", "leaves", column: "leave_id"
-  add_foreign_key "employee_leaves", "users"
-  add_foreign_key "employee_salaries", "salaries"
-  add_foreign_key "employee_salaries", "users"
+  add_foreign_key "leaves", "users"
+  add_foreign_key "salaries", "users"
   add_foreign_key "user_addresses", "users"
   add_foreign_key "user_roles", "users"
 end
