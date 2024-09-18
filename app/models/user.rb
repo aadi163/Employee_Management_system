@@ -1,9 +1,10 @@
 class User < ApplicationRecord
   has_one :user_role
-  has_many :user_addresses
+  has_one :user_addresses
   has_many :salaries
   has_many :leaves 
   has_many :attendances
+  belongs_to :department
 
   has_secure_password
   # mount_uploader :avatar, AvatarUploader

@@ -1,7 +1,14 @@
 class LeavesController < ApplicationController
   before_action :find_leave, only: %i[update destroy ]
+  before_action :current_user
+
+  def index
+    @leaves = Leave.all
+    render json: @leaves, status: :ok
+  end
 
   def create
+    puts @current_user.name
     leave = Leave.new(user_leave_params)
     if leave.save
       render json: leave , status: :created, location: leave
