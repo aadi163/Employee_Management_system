@@ -12,4 +12,9 @@ Rails.application.routes.draw do
   get '/*a', to: 'application#not_found'
 
   resources :user_roles
+  resources :user_addresses
+  resources :leaves
+  resources :employee_leaves
+  resources :attendances
+  resources :employee_attendances
 end

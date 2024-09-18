@@ -10,15 +10,60 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_17_115940) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_18_090617) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "attendances", force: :cascade do |t|
+    t.string "attendance"
+    t.string "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "employee_attendances", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "attendance_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attendance_id"], name: "index_employee_attendances_on_attendance_id"
+    t.index ["user_id"], name: "index_employee_attendances_on_user_id"
+  end
+
+  create_table "employee_leaves", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "leave_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["leave_id"], name: "index_employee_leaves_on_leave_id"
+    t.index ["user_id"], name: "index_employee_leaves_on_user_id"
+  end
+
+  create_table "leaves", force: :cascade do |t|
+    t.string "from"
+    t.string "to"
+    t.string "days"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_addresses", force: :cascade do |t|
+    t.string "address"
+    t.string "city"
+    t.string "state"
+    t.bigint "phone_no"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_addresses_on_user_id"
+  end
 
   create_table "user_roles", force: :cascade do |t|
     t.string "role"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "profile"
     t.index ["user_id"], name: "index_user_roles_on_user_id"
   end
 
@@ -31,5 +76,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_17_115940) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "employee_attendances", "attendances"
+  add_foreign_key "employee_attendances", "users"
+  add_foreign_key "employee_leaves", "leaves", column: "leave_id"
+  add_foreign_key "employee_leaves", "users"
+  add_foreign_key "user_addresses", "users"
   add_foreign_key "user_roles", "users"
 end

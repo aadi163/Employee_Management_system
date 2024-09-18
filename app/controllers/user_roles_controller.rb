@@ -30,7 +30,7 @@ class UserRolesController < ApplicationController
   private
 
   def user_role_params
-    params.permit(:role , :user_id)
+    params.permit(:role , :profile , :user_id)
   end
 
   def find_role

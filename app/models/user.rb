@@ -1,5 +1,9 @@
 class User < ApplicationRecord
   has_one :user_role
+  has_many :user_addresses
+
+  has_many :employee_leaves
+  has_many :leaves , through: :employee_leaves
 
   has_secure_password
   # mount_uploader :avatar, AvatarUploader
