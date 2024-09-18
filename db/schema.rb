@@ -10,13 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_18_090617) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_18_110141) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "attendances", force: :cascade do |t|
     t.string "attendance"
     t.string "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "departments", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -30,6 +36,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_090617) do
     t.index ["user_id"], name: "index_employee_attendances_on_user_id"
   end
 
+  create_table "employee_departments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "department_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_employee_departments_on_department_id"
+    t.index ["user_id"], name: "index_employee_departments_on_user_id"
+  end
+
   create_table "employee_leaves", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "leave_id", null: false
@@ -39,10 +54,26 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_090617) do
     t.index ["user_id"], name: "index_employee_leaves_on_user_id"
   end
 
+  create_table "employee_salaries", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "salary_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["salary_id"], name: "index_employee_salaries_on_salary_id"
+    t.index ["user_id"], name: "index_employee_salaries_on_user_id"
+  end
+
   create_table "leaves", force: :cascade do |t|
     t.string "from"
     t.string "to"
     t.string "days"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "salaries", force: :cascade do |t|
+    t.string "date"
+    t.bigint "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -78,8 +109,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_090617) do
 
   add_foreign_key "employee_attendances", "attendances"
   add_foreign_key "employee_attendances", "users"
+  add_foreign_key "employee_departments", "departments"
+  add_foreign_key "employee_departments", "users"
   add_foreign_key "employee_leaves", "leaves", column: "leave_id"
   add_foreign_key "employee_leaves", "users"
+  add_foreign_key "employee_salaries", "salaries"
+  add_foreign_key "employee_salaries", "users"
   add_foreign_key "user_addresses", "users"
   add_foreign_key "user_roles", "users"
 end

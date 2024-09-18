@@ -17,4 +17,8 @@ Rails.application.routes.draw do
   resources :employee_leaves
   resources :attendances
   resources :employee_attendances
+  resources :salaries
+  resources :employee_salaries
+  resources :departments
+  resources :employee_departments 
 end
