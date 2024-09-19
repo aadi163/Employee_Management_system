@@ -26,7 +26,6 @@ class UserRolesController < ApplicationController
     end
   end
 
-
   private
 
   def user_role_params

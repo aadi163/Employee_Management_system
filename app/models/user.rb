@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :salaries
   has_many :leaves 
   has_many :attendances
-  belongs_to :department
+  # belongs_to :department
 
   has_secure_password
   # mount_uploader :avatar, AvatarUploader
